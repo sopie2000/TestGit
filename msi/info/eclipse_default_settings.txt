@@ -3,7 +3,7 @@ eclipse setting
 ##### Plugin 설치 #####
 Help -> Eclipse Marketplace..
 - Start Explorer
-- Quick Search
+- Quick Search1
 
 ##### Preferences #####
 - General -> Editors -> Text Editors -> Show line number 체크
