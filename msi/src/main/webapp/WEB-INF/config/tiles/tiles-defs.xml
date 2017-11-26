@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<!-- 메인 화면 레이아웃 적용 -->
+	<definition name="defaultMainLayout" template="/WEB-INF/jsp/common/layout/default/defaultMainLayout.jsp">
+		<put-attribute name="gnb" value="/WEB-INF/jsp/common/layout/default/defaultGnb.jsp" />
+		<put-attribute name="lnb" value="/WEB-INF/jsp/common/layout/default/defaultLnb.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/common/layout/default/defaultFooter.jsp" />
+	</definition>	
+	
+	<!-- 로그인 -->
+	<definition name="defaultLoginLayout" template="/WEB-INF/jsp/common/layout/default/defaultLoginLayout.jsp">
+		<put-attribute name="body" value="" />
+	</definition>
+			    
+	<definition name="noLayout/*/*/*/*" extends="defaultMainLayout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}/{3}/{4}.jsp" />
+	</definition>	
+	
+	<definition name="noLayout/*/*/*" extends="defaultMainLayout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>	
+	
+	<definition name="noLayout/*/*" extends="defaultMainLayout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>	
+	
+	
+	<!-- 메인 화면 레이아웃 적용 -->
+	<definition name="msiMain/*/*/*/*/*" extends="defaultMainLayout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}/{3}/{4}/{5}.jsp" />
+	</definition>
+	
+	<definition name="msiMain/*/*/*/*" extends="defaultMainLayout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+		
+	<definition name="msiMain/*/*/*" extends="defaultMainLayout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
+	</definition>
+	
+	<definition name="msiMain/*/*" extends="defaultMainLayout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="msiMain/*" extends="defaultMainLayout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}.jsp" />
+	</definition>
+
+	<!-- 로그인 레이아웃 적용 -->
+	<definition name="msiLogin/*/*" extends="defaultLoginLayout">
+		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
+	</definition>
+
+</tiles-definitions>

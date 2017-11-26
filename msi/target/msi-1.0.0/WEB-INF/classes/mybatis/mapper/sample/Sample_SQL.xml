@@ -1,0 +1,112 @@
+<?xml version= "1.0" encoding ="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.co.www.web.dao.sample.SampleDao">
+ 
+  	<sql id="sample_Where" >
+  		WHERE 1 = 1
+  		AND TERMS_TYPE = #{type}
+  		<if test="@org.apache.commons.lang.StringUtils@isNotEmpty(deleteYn)">
+  			AND DELETE_YN = #{deleteYn}
+ 		</if>
+ 		
+ 		<if test="@org.apache.commons.lang.StringUtils@isNotEmpty(searchText)">
+			<if test='searchFild =="TITLE"'>
+				AND TITLE LIKE '%'||LTRIM(TRIM(#{searchText}))||'%' 
+			</if>
+			<if test='searchFild =="CONTENT"'>
+				AND CONTENT LIKE '%'||LTRIM(TRIM(#{searchText}))||'%' 
+			</if>
+			<if test='searchFild =="ALL"'>
+				AND( TITLE LIKE '%'||LTRIM(TRIM(#{searchText}))||'%' 
+				OR CONTENT LIKE '%'||LTRIM(TRIM(#{searchText}))||'%' )
+			</if>			
+		</if>
+		
+		<if test="@org.apache.commons.lang.StringUtils@isNotEmpty(START_DATE)">
+			AND TO_CHAR(REG_DATE,'YYYYMMDD') >= REPLACE(#{START_DATE},'-','') 
+			<if test="@org.apache.commons.lang.StringUtils@isNotEmpty(END_DATE)">
+				AND TO_CHAR(REG_DATE,'YYYYMMDD') &lt;= REPLACE(#{END_DATE},'-','')
+			</if>
+		</if>		
+				
+    </sql>
+    
+    <select id="selectSampleList" parameterType="CommonMap" resultType="CommonMap"  >
+		SELECT 
+			 S.*
+			FROM( 
+				SELECT
+					  IDX
+					 ,TERMS_TYPE
+					 ,TITLE
+					 ,CONTENT
+					 ,REG_DATE
+					 ,REG_ID
+					 ,DELETE_YN
+					 ,MODIFY_DATE
+					 ,MODIFY_ID
+					 
+					FROM TB_TERMS
+					<include refid="sample_Where" />
+					ORDER BY IDX DESC
+		        ) S
+    </select>
+    
+    <select id="selectSampleCount" parameterType="CommonMap"  resultType="int" >
+		SELECT 
+			COUNT(*) AS TOTAL_COUNT
+			FROM TB_TERMS
+			<include refid="sample_Where" />
+    </select>
+    
+    <select id="selectSampleAllList" parameterType="CommonMap" resultType="CommonMap"  >
+		SELECT 
+			 S.*
+		    ,COUNT(*) OVER() - ROWNUM AS RN
+				
+			FROM( 
+				SELECT
+					  IDX
+					 ,TERMS_TYPE
+					 ,TITLE
+					 ,CONTENT
+					 ,REG_DATE
+					 ,REG_ID
+					 ,DELETE_YN
+					 ,MODIFY_DATE
+					 ,MODIFY_ID
+					 
+					FROM TB_TERMS
+					<include refid="sample_Where" />
+					ORDER BY IDX DESC
+		        ) S
+    </select>
+    
+    <select id="selectSampleDetail" parameterType="CommonMap" resultType="CommonMap"  >
+		SELECT
+				 IDX
+				,TERMS_TYPE
+				,TITLE
+				,CONTENT
+				,REG_DATE
+				,REG_ID
+				,DELETE_YN
+				,MODIFY_DATE
+				,MODIFY_ID
+				FROM TB_TERMS
+				
+				WHERE TERMS_TYPE = #{TERMS_TYPE} AND IDX = #{IDX}
+    </select> 
+    
+	<insert id="insertSample" parameterType="CommonMap" >
+		<selectKey resultType="String" keyProperty="MAX_IDX" order="BEFORE">
+			SELECT NVL(MAX(IDX)+1,1) AS MAX_PN FROM TB_TERMS WHERE TERMS_TYPE = #{TERMS_TYPE}
+        </selectKey>
+		INSERT INTO TERMS_TYPE ( 
+				TERMS_TYPE , IDX , TITLE , CONTENT, REG_DATE, REG_ID, DELETE_YN, MODIFY_DATE, MODIFY_ID
+		)VALUES(
+			#{TERMS_TYPE} , #{MAX_IDX} , #{TITLE}, #{CONTENT}, SYSDATE, #{REG_ID}, 'N', #{MODIFY_DATE}, #{MODIFY_ID}
+		)
+	</insert>    
+</mapper>

@@ -1,0 +1,8 @@
+##### 참조 #####
+Spring Security 로그인 화면 커스터마이징  : http://zgundam.tistory.com/46 /47 /48 /49
+
+
+##### spring security setting#####
+1. pom.xml 추가. (security관련 dependency 추가.)
+2. web.xml (security 필터 추가.)
+3. security-context.xml 생성 (Msi 프로젝트 소스 참조)

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- - DispatcherServlet application context for Application's web tier. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                                         http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                                             http://www.springframework.org/schema/context 
+                                             http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                                              http://www.springframework.org/schema/mvc 
+                                              http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+                                              http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<context:component-scan base-package="kr.co.www">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+
+	<!-- validator Annotation 사용  -->
+	<mvc:annotation-driven validator="validator" />
+	
+	<!-- @Transactional 클래스 프록시 설정  - @Transactional 사용하는 경우 proxy-target-class 속성을 true로 설정 -->
+	<tx:annotation-driven proxy-target-class="true" />
+
+
+	<!-- validation -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+	<!-- 인터셉터 전후처리   -->
+	<mvc:interceptors>
+		<bean id="webContentInterceptor" class="kr.co.www.common.handler.MsiHandler" />
+	</mvc:interceptors>
+	
+	<mvc:resources mapping="/js/**" location="/js/"
+		cache-period="86400" />
+	<mvc:resources mapping="/css/**" location="/css/"
+		cache-period="86400" />
+	<mvc:resources mapping="/images/**" location="/images/"
+		cache-period="31556926" />
+	<mvc:resources mapping="/html/**" location="/html/"
+		cache-period="31556926" />	
+		
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class="kr.co.www.common.bind.MsiBindingInitializer" />
+		</property>
+		
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/plain;charset=UTF-8</value>
+							<value>image/jpeg</value>
+							<value>image/jpg</value>
+							<value>image/png</value>
+							<value>image/gif</value>
+							<value>video/mp4</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- <bean id="excelView" class="kr.co.www.common.util.ExcelView">
+		<property name="contentType" value="application/vnd.ms-excel; charset=UTF-8"></property>
+	</bean> -->	
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+		
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="common/error/500" />
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.dao.DataAccessException">common/error/500</prop>
+				<prop key="org.springframework.transaction.TransactionException">common/error/500</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- tiles2 layout config -->
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/config/tiles/tiles-defs.xml</value>
+			</list>
+		</property>
+		<property name="preparerFactoryClass" value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory" />
+	</bean>
+
+	<!-- view name tanslator -->
+	<bean id="viewNameTranslator" class="org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator" />
+
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="mediaTypes">
+			<map>
+				<entry key="xml" value="application/xml" />
+				<entry key="json" value="application/json" />
+				<entry key="do" value="text/html" />
+			</map>
+		</property>
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+					<property name="order" value="2" />
+				</bean>
+				
+				<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+					<property name="viewClass"
+						value="org.springframework.web.servlet.view.tiles2.TilesView" />
+				</bean>
+				
+				<bean
+					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="prefix" value="/WEB-INF/jsp/" />
+					<property name="suffix" value=".jsp" />
+				</bean>
+			</list>
+		</property>
+		<property name="order" value="1" />
+		<property name="ignoreAcceptHeader" value="true" />
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	    <property name="alwaysUseFullPath" value="true" />
+	</bean>
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+   	 	<property name="alwaysUseFullPath" value="true" />
+	</bean>
+
+</beans>

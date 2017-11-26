@@ -1,0 +1,39 @@
+eclipse setting
+
+##### Plugin 설치 #####
+Help -> Eclipse Marketplace..
+- Start Explorer
+- Quick Search
+
+##### Preferences #####
+- General -> Editors -> Text Editors -> Show line number 체크
+- General -> Appearance -> colors and Fonts -> basic/Text font (글자 사이트 수정)
+- Workspace -> Text file encoding (UTF-8)
+- Java -> Editor -> Syntax coloring -> java/classed 색상변경
+- Project Facets 
+    Dynamic Web Module 2.4
+    Java 1.6
+    Javascript 1.0
+
+##### JavaScript Error무시 #####
+- javasScript -> Include Path -> Source -> excluded
+
+##### Available Customization 설정 #####
+* filter (아래항목 체크)
+- .* resources
+- JETmitters
+- Empty parent packages
+- import declarations
+- Inactive Profiles
+- Inner class files
+- java output folders
+- Package declarations
+- RSE Internal Projects
+- Spring Infrastructure Beans
+- Synthetic members
+- Task List Elements (Recommended)
+* Cotent (아래항목 해제)
+- depolyed resourse 
+
+##### Server.xml #####
+ URLEncoding 추가 <Connector ... URIEncoding="UTF-8"/>  

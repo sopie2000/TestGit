@@ -1,0 +1,12 @@
+<?xml version= "1.0" encoding ="UTF-8"?>
+<settings>
+  <localRepository>D:/green/tools/spring-tool/maven/repository</localRepository>
+  <offline>false</offline>
+  <proxies></proxies>
+  <servers></servers>
+  <mirrors></mirrors>
+  <profiles></profiles>
+  <pluginGroups>
+	<pluginGroup>green.dev</pluginGroup>
+  </pluginGroups>
+</settings>

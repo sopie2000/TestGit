@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_HOME" value="D:\\eGovFrameDev-3.5.0-64bit\\workspace\\msi\\logs" />
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d %5p | %t | %-55logger{55} | %m %n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOG_HOME}/msi.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+
+			<!-- keep 7 days' worth of history -->
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n
+			</pattern>
+		</encoder>
+
+	</appender>
+	<!-- DEBUG / INFO / ERROR -->
+	<!-- CONSOLE / FILE -->
+	 
+    <logger name="org.springframework" level="DEBUG"/>
+    <logger name="kr.co.kgc.www" level="DEBUG"/>
+ 
+    <!-- SQL log -->
+    <logger name="jdbc.audit" level="OFF"/>
+    <logger name="java.sql.ResultSet" level="OFF"/>
+    <logger name="jdbc.resultse" level="OFF"/>
+    <logger name="jdbc.resultsettable" level="DEBUG"/>
+    <logger name="jdbc.resultset" level="OFF"/>
+    <logger name="org.apache.commons.digester.Digester" level="OFF"/>
+    <logger name="jdbc.connection" level="DEBUG"/>
+    <logger name="jdbc.sqlonly" level="DEBUG"/>
+    <logger name="jdbc.sql.timing" level="DEBUG"/>
+    <logger name="com.google.code.lightssh" level="DEBUG"/>
+ 
+    <root level="DEBUG">
+		<!-- <appender-ref ref="FILE" /> -->
+        <appender-ref ref="CONSOLE" />
+    </root>
+    
+</configuration>  

@@ -1,0 +1,26 @@
+spring_default_settings
+
+##### web.xml ##### 
+- encodingFilter 설정
+- 웹 애플리케이션 요청시 시작파일 지정 
+- 세션설정 timeout
+- listener 설정 
+ * spring mvc를 위한 Listener, DispatcherServlet설정과 mvc관련 관련 추가 환경설정정보 파일위치를  등록한다.
+- DispatcherServlet 설정
+- error-page 설정
+
+##### dispatcher-servlet.xml ##### 
+- validator Annotation 설정
+- @Transactional 설정
+- 인터셉터 설정
+- 폴더별 캐시 설정
+msi-project dispatcher-servlet.xml 참조..
+
+##### pom.xml #####
+msi-project pom.xml 참조 
+
+
+##### spring security #####
+1. pom.xml 추가.
+2. web.xml security 필터 추가.
+3. security-context.xml 생성

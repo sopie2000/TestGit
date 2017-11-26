@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="PAGING">	
+	
+
+	<sql id="Paging_Header_Clause">
+		SELECT R2.* FROM ( 							
+			SELECT R1.*, ROWNUM AS RNUM FROM (
+	</sql>
+	
+	<sql id="Paging_Tail_Clause" >
+			) R1 WHERE ROWNUM &lt;= ( ${rowSize} * ${curPageNo} )
+	 	) R2 WHERE R2.RNUM > ( ${rowSize} * (${curPageNo}-1) )
+	</sql>  
+	
+	<sql id="Paging2_Tail_Clause" >
+			) R1 WHERE ROWNUM &lt;= ( ${rowSize} * ${curPageNo2} )
+	 	) R2 WHERE R2.RNUM > ( ${rowSize} * (${curPageNo2}-1) )
+	</sql>
+	
+	<sql id="Paging3_Tail_Clause" >
+			) R1 WHERE ROWNUM &lt;= ( ${rowSize} * ${curPageNo3} )
+	 	) R2 WHERE R2.RNUM > ( ${rowSize} * (${curPageNo3}-1) )
+	</sql>
+	
+	<sql id="Paging4_Tail_Clause" >
+			) R1 WHERE ROWNUM &lt;= ( ${rowSize} * ${curPageNo4} )
+	 	) R2 WHERE R2.RNUM > ( ${rowSize} * (${curPageNo4}-1) )
+	</sql>
+	
+	
+	
+</mapper>
